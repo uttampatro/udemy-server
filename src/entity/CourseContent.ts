@@ -26,13 +26,13 @@ export enum CourseContentType {
 @Entity('courseContent')
 export class CourseContent extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column('jsonb')
     content: ICourseContent[];
 
-    @Column()
-    topicId: number;
+    @Column('uuid')
+    topicId: string;
 
     @ManyToOne(() => CourseTopic)
     topic: CourseTopic;

@@ -13,7 +13,7 @@ import { Course } from './Course';
 @Unique(['email'])
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column()
     username: string;
@@ -24,7 +24,7 @@ export class User extends BaseEntity {
     @Column()
     password: string;
 
-    @OneToMany(() => Course, course => course.name)
+    @OneToMany(() => Course, course => course.createdBy)
     course: Course[];
 
     // @OneToMany(() => Cart, cart => cart.user)

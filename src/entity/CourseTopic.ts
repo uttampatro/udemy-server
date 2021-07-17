@@ -15,7 +15,7 @@ import { User } from './User';
 @Entity('courseTopic')
 export class CourseTopic extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column()
     name: string;
@@ -29,7 +29,7 @@ export class CourseTopic extends BaseEntity {
     @ManyToOne(() => User)
     createdBy: User;
 
-    @OneToMany(() => CourseContent, courseContent => courseContent.content)
+    @OneToMany(() => CourseContent, courseContent => courseContent.topic)
     courseContent: CourseContent[];
 
     @CreateDateColumn()

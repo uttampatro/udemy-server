@@ -1,7 +1,7 @@
 import { ICourseContent } from '../../entity/CourseContent';
 
 export interface CreateCourseDTO {
-    userId: number;
+    userId: string;
     imageUrl: string;
     name: string;
     price: number;
@@ -10,13 +10,13 @@ export interface CreateCourseDTO {
 export interface CreateTopicDTO {
     name: string;
     courseId: string;
-    userId: number;
+    userId: string;
 }
 
 export interface CreateCourseContentDTO {
     content: ICourseContent[];
-    topicId: number;
-    userId: number;
+    topicId: string;
+    userId: string;
 }
 
 export interface FindTopicListDTO {
@@ -25,7 +25,7 @@ export interface FindTopicListDTO {
 
 export interface AddToCartDTO {
     courseId: string;
-    userId: number;
+    userId: string;
 }
 
 export interface FindCourseDTO {

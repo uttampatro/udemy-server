@@ -14,7 +14,7 @@ import { User } from './User';
 @Entity('cart')
 export class Cart extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @ManyToOne(() => Course, course => course.cart)
     courses: Course[];

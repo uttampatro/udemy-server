@@ -16,7 +16,7 @@ import { User } from './User';
 @Entity('course')
 export class Course extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({ nullable: true })
     imageUrl: string;
