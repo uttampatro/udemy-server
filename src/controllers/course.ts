@@ -92,10 +92,22 @@ class CourseController {
                 userId,
                 courseId,
             });
-            console.log(cart);
             return res.json(cart);
         } catch (error) {
-            console.log(error);
+            return res.status(500).json({
+                success: false,
+                message: 'Something went wrong',
+            });
+        }
+    };
+    getCourseListByCartId = async (req: Request, res: Response) => {
+        try {
+            const cartId = req.params.id;
+            const courseList = await CourseService.getCourseListByCartId({
+                cartId,
+            });
+            return res.json(courseList);
+        } catch (error) {
             return res.status(500).json({
                 success: false,
                 message: 'Something went wrong',

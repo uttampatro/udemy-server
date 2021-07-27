@@ -10,18 +10,16 @@ import {
 } from 'typeorm';
 import { Course } from './Course';
 import { User } from './User';
-
 @Entity('cart')
 export class Cart extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => Course, course => course.cart)
+    @OneToMany(() => Course, course => course.cart)
+    @JoinColumn()
     courses: Course[];
 
-    @OneToOne(() => User, user => user.id, {
-        cascade: true,
-    })
+    @OneToOne(() => User, user => user.id)
     @JoinColumn()
     user: User;
 }

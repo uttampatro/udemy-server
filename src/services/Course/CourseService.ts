@@ -5,6 +5,7 @@ import {
     CreateCourseContentDTO,
     CreateCourseDTO,
     CreateTopicDTO,
+    FindCourseDTO,
     FindTopicListDTO,
 } from './CourseDTO';
 import { CourseTopic } from '../../entity/CourseTopic';
@@ -81,6 +82,7 @@ class CourseService {
     }
     async addToCart(dto: AddToCartDTO) {
         const { courseId, userId } = dto;
+        console.log(dto);
         const user = await User.findOne({
             where: { id: userId },
         });
@@ -97,7 +99,10 @@ class CourseService {
         if (cart) {
             const courses: Course[] = cart.courses ? cart.courses : [];
             courses.push(course);
-            await Cart.update({ id: cart.id }, { courses: courses });
+            cart.user = user;
+            cart.courses = courses;
+            await cart.save();
+            return cart;
         } else {
             const cart = new Cart();
             cart.user = user;
@@ -105,7 +110,13 @@ class CourseService {
             await cart.save();
         }
     }
-    async getCourseListByCartId() {}
+    async getCourseListByCartId(dto: FindCourseDTO) {
+        const { cartId } = dto;
+        const courseList = await Course.find({
+            where: { cart: { id: cartId } },
+        });
+        return courseList;
+    }
 }
 
 export default new CourseService();

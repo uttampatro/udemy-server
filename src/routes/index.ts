@@ -19,5 +19,6 @@ router.post('/createCourseContent', CourseController.createCourseContent);
 router.get('/getAllCourseList', CourseController.getAllCourseList);
 router.get('/getTopicList/:id', CourseController.getTopicListByCourseId);
 router.post('/addToCart', CourseController.addToCart);
+router.get('/getCourseList/:id', CourseController.getCourseListByCartId);
 
 export default router;
