@@ -23,6 +23,10 @@ export interface FindTopicListDTO {
     courseId: string;
 }
 
+export interface FindContentListDTO {
+    topicId: string;
+}
+
 export interface AddToCartDTO {
     courseId: string;
     userId: string;

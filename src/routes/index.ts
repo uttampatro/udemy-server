@@ -17,7 +17,9 @@ router.post('/createCourse', CourseController.createCourse);
 router.post('/createTopic', CourseController.createTopic);
 router.post('/createCourseContent', CourseController.createCourseContent);
 router.get('/getAllCourseList', CourseController.getAllCourseList);
+router.get('/getCourse/:id', CourseController.getCourse)
 router.get('/getTopicList/:id', CourseController.getTopicListByCourseId);
+router.get('/getContentList/:id', CourseController.getContentListByTopicId);
 router.post('/addToCart', CourseController.addToCart);
 router.get('/getCourseList/:id', CourseController.getCourseListByCartId);
 

@@ -5,6 +5,7 @@ import {
     CreateCourseContentDTO,
     CreateCourseDTO,
     CreateTopicDTO,
+    FindContentListDTO,
     FindCourseDTO,
     FindTopicListDTO,
 } from './CourseDTO';
@@ -73,12 +74,50 @@ class CourseService {
             .getMany();
         return courseList;
     }
+    async getCourse(dto: FindTopicListDTO) {
+        const { courseId } = dto;
+        // const course = await Course.findOne({
+        //     where: { id: courseId },
+        // });
+        const course = await Course.createQueryBuilder('course')
+            .leftJoinAndSelect('course.createdBy', 'createdBy')
+            .where('course.id = :id', {
+                id: courseId,
+            })
+            .select('course.id')
+            .addSelect('course.name')
+            .addSelect('course.price')
+            .addSelect('course.imageUrl')
+            .addSelect('createdBy.username')
+            .getOne();
+        return course;
+    }
     async getTopicListByCourseId(dto: FindTopicListDTO) {
         const { courseId } = dto;
-        const topicList = await CourseTopic.find({
-            where: { courseId: courseId },
-        });
+        const topicList = await CourseTopic.createQueryBuilder('courseTopic')
+            .leftJoinAndSelect('courseTopic.course', 'course')
+            .leftJoinAndSelect('course.createdBy', 'createdBy')
+            .where('courseTopic.courseId = :courseId', {
+                courseId,
+            })
+            .select('courseTopic.id')
+            .addSelect('courseTopic.name')
+            .addSelect('courseTopic.createdAt')
+            .addSelect('course.id')
+            .addSelect('course.name')
+            .addSelect('course.price')
+            .addSelect('course.imageUrl')
+            .addSelect('createdBy.username')
+            .getMany();
         return topicList;
+    }
+    async getContentListByTopicId(dto: FindContentListDTO) {
+        const { topicId } = dto;
+        const contentList = await CourseContent.find({
+            where: { topicId: topicId },
+            relations: ['topic'],
+        });
+        return contentList;
     }
     async addToCart(dto: AddToCartDTO) {
         const { courseId, userId } = dto;

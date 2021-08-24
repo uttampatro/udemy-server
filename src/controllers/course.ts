@@ -70,6 +70,20 @@ class CourseController {
             });
         }
     };
+    getCourse = async (req: Request, res: Response) => {
+        try {
+            const courseId = req.params.id;
+            const course = await CourseService.getCourse({
+                courseId,
+            });
+            return res.json(course);
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: 'Something went wrong',
+            });
+        }
+    };
     getTopicListByCourseId = async (req: Request, res: Response) => {
         try {
             const courseId = req.params.id;
@@ -77,6 +91,20 @@ class CourseController {
                 courseId,
             });
             return res.json(topicList);
+        } catch (error) {
+            return res.status(500).json({
+                success: false,
+                message: 'Something went wrong',
+            });
+        }
+    };
+    getContentListByTopicId = async (req: Request, res: Response) => {
+        try {
+            const topicId = req.params.id;
+            const contentList = await CourseService.getContentListByTopicId({
+                topicId,
+            });
+            return res.json(contentList);
         } catch (error) {
             return res.status(500).json({
                 success: false,
