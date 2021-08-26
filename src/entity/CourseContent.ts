@@ -11,7 +11,7 @@ import { CourseTopic } from './CourseTopic';
 import { User } from './User';
 
 export interface ICourseContent {
-    type: string;
+    type: CourseContentType;
     text: string;
     videoUrl: string;
     imageUrl: string;
@@ -28,8 +28,14 @@ export class CourseContent extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column('jsonb')
-    content: ICourseContent[];
+    @Column('json')
+    data: ICourseContent;
+
+    @Column({ nullable: true })
+    sequence: number;
+
+    @Column({ nullable: true })
+    title: string;
 
     @Column('uuid')
     topicId: string;
@@ -44,3 +50,5 @@ export class CourseContent extends BaseEntity {
     @Index()
     createdAt: Date;
 }
+
+// [{"type":1,"text":"Welcome to Intro","videoUrl":"","imageUrl":""}]

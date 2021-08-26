@@ -4,17 +4,20 @@ export interface CreateCourseDTO {
     userId: string;
     imageUrl: string;
     name: string;
-    price: number;
+    price: string;
 }
 
 export interface CreateTopicDTO {
+    sequence: number;
     name: string;
     courseId: string;
     userId: string;
 }
 
 export interface CreateCourseContentDTO {
-    content: ICourseContent[];
+    title: string;
+    sequence: number;
+    data: ICourseContent;
     topicId: string;
     userId: string;
 }

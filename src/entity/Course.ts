@@ -23,8 +23,8 @@ export class Course extends BaseEntity {
     @Column()
     name: string;
 
-    @Column()
-    price: number;
+    @Column({ nullable: true })
+    price: string;
 
     @ManyToOne(() => User)
     createdBy: User;

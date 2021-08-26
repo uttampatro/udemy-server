@@ -28,7 +28,7 @@ class CourseService {
         return course;
     }
     async createTopic(dto: CreateTopicDTO) {
-        const { name, courseId, userId } = dto;
+        const { name, sequence, courseId, userId } = dto;
         const user = await User.findOne({
             where: { id: userId },
         });
@@ -37,6 +37,7 @@ class CourseService {
         });
         const topic = new CourseTopic();
         topic.name = name;
+        topic.sequence = sequence;
         topic.createdBy = user!;
         topic.courseId = courseId;
         topic.course = course!;
@@ -44,7 +45,8 @@ class CourseService {
         return topic;
     }
     async createCourseContent(dto: CreateCourseContentDTO) {
-        const { content, topicId, userId } = dto;
+        const { title, sequence, data, topicId, userId } = dto;
+        const { type, text, imageUrl, videoUrl } = data;
         const user = await User.findOne({
             where: { id: userId },
         });
@@ -52,7 +54,15 @@ class CourseService {
             where: { id: topicId },
         });
         const courseContent = new CourseContent();
-        courseContent.content = content;
+        const contentData = {
+            type,
+            text,
+            imageUrl,
+            videoUrl,
+        };
+        courseContent.data = contentData;
+        courseContent.sequence = sequence;
+        courseContent.title = title;
         courseContent.topicId = topicId;
         courseContent.topic = topic!;
         courseContent.createdBy = user!;
@@ -63,6 +73,7 @@ class CourseService {
         const courseList = await Course.createQueryBuilder('course')
             .leftJoinAndSelect('course.courseTopic', 'courseTopic')
             .leftJoinAndSelect('course.createdBy', 'createdBy')
+            .orderBy('course.createdAt', 'ASC')
             .select('course.id')
             .addSelect('course.imageUrl')
             .addSelect('course.name')
@@ -76,9 +87,6 @@ class CourseService {
     }
     async getCourse(dto: FindTopicListDTO) {
         const { courseId } = dto;
-        // const course = await Course.findOne({
-        //     where: { id: courseId },
-        // });
         const course = await Course.createQueryBuilder('course')
             .leftJoinAndSelect('course.createdBy', 'createdBy')
             .where('course.id = :id', {
@@ -100,8 +108,10 @@ class CourseService {
             .where('courseTopic.courseId = :courseId', {
                 courseId,
             })
+            .orderBy('courseTopic.sequence', 'ASC')
             .select('courseTopic.id')
             .addSelect('courseTopic.name')
+            .addSelect('courseTopic.sequence')
             .addSelect('courseTopic.createdAt')
             .addSelect('course.id')
             .addSelect('course.name')
@@ -116,6 +126,9 @@ class CourseService {
         const contentList = await CourseContent.find({
             where: { topicId: topicId },
             relations: ['topic'],
+            order: {
+                sequence: 'ASC',
+            },
         });
         return contentList;
     }

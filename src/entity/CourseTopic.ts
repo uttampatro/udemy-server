@@ -21,6 +21,9 @@ export class CourseTopic extends BaseEntity {
     @Column()
     name: string;
 
+    @Column({ nullable: true })
+    sequence: number;
+
     @Column('uuid')
     courseId: string;
 

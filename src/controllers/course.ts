@@ -26,9 +26,11 @@ class CourseController {
     createTopic = async (req: Request, res: Response) => {
         try {
             const userId = req.body.userId;
+            const sequence = req.body.sequence;
             const name = req.body.name;
             const courseId = req.body.courseId;
             const topic = await CourseService.createTopic({
+                sequence,
                 name,
                 courseId,
                 userId,
@@ -44,15 +46,20 @@ class CourseController {
     createCourseContent = async (req: Request, res: Response) => {
         try {
             const userId = req.body.userId;
-            const content = req.body.content;
+            const data = req.body.data;
+            const sequence = req.body.sequence;
+            const title = req.body.title;
             const topicId = req.body.topicId;
             const courseContent = await CourseService.createCourseContent({
-                userId,
-                content,
+                sequence,
+                title,
+                data: data,
                 topicId,
+                userId,
             });
             return res.json(courseContent);
         } catch (error) {
+            console.log(error);
             return res.status(500).json({
                 success: false,
                 message: 'Something went wrong',
@@ -78,6 +85,7 @@ class CourseController {
             });
             return res.json(course);
         } catch (error) {
+            console.log(error);
             return res.status(500).json({
                 success: false,
                 message: 'Something went wrong',
@@ -92,6 +100,7 @@ class CourseController {
             });
             return res.json(topicList);
         } catch (error) {
+            console.log(error);
             return res.status(500).json({
                 success: false,
                 message: 'Something went wrong',
